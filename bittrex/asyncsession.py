@@ -1,6 +1,6 @@
 from .base import BittrexBaseSession
 import requests
-from .exceptions import ResponseError
+from .exceptions import ResponseError, RequestError
 
 try:
     import aiohttp
@@ -37,9 +37,21 @@ class BittrexAsyncSession(BittrexBaseSession):
 
         return self._parse_response(json_response)
 
-    async def get_markets(self):
+    async def get_markets(self, market_name=None):
+        """Added our own get single market option"""
         url = self._get_markets()
-        return await self._get(url)
+        markets = await self._get(url)
+
+        if market_name is not None:
+            for market in markets:
+                if market_name == market.market_name:
+                    break
+            else:
+                raise RequestError(f'Could not find {market_name}')
+
+            return market
+        else:
+            return markets
 
     async def get_market_summaries(self, market_name=None):
         url = self._get_market_summaries(market_name)

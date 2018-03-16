@@ -1,6 +1,6 @@
 from .base import BittrexBaseSession
 import requests
-from .exceptions import ResponseError
+from .exceptions import ResponseError, RequestError
 
 
 class BittrexSession(BittrexBaseSession):
@@ -24,9 +24,22 @@ class BittrexSession(BittrexBaseSession):
 
         return self._parse_response(json_response)
 
-    def get_markets(self):
+    def get_markets(self, market_name=None):
+        """Added our own get single market option"""
         url = self._get_markets()
-        return self._get(url)
+
+        markets = self._get(url)
+
+        if market_name is not None:
+            for market in markets:
+                if market_name == market.market_name:
+                    break
+            else:
+                raise RequestError(f'Could not find {market_name}')
+
+            return market
+        else:
+            return markets
 
     def get_market_summaries(self, market_name=None):
         url = self._get_market_summaries(market_name)

@@ -3,6 +3,10 @@
 Release History
 ---------------
 
+0.0.2 (2018-03-16)
+++++++++++++++++++
+- Added optional market_name filter to get_markets() function. Note this is not provided by bittrex api, still retrieving all markets in background
+
 0.0.1 (2018-03-16)
 ++++++++++++++++++
 
