@@ -7,7 +7,7 @@ import hmac
 from time import time
 
 
-__version__ = 'v0.0.2'
+__version__ = 'v0.0.4'
 
 class BittrexBaseSession:
     def __init__(self, key, secret, host='bittrex.com', version='v1.1', loop=None):
@@ -58,8 +58,7 @@ class BittrexBaseSession:
         elif isinstance(data['result'], dict):
             return Response(**data['result'])
         else:
-
-            raise ResponseError(f"Parsing failed: {data['result']}")
+            raise ResponseError(f"Parsing failed: {data}")
 
     def _get_markets(self):
         """Retrieve public markets"""

@@ -27,15 +27,20 @@ class BittrexAsyncSession(BittrexBaseSession):
         """async HTTP GET request"""
 
         headers = {'apisign': self._sign_url(url)}
-        async with self.session.get(
-            url, json=payload, headers=headers
-        ) as response:
-            if response.status != requests.codes.ok:
-                raise ResponseError(f'{url} {response.status}')
+        try:
+            async with self.session.get(
+                url, json=payload, headers=headers
+            ) as response:
+                if response.status != requests.codes.ok:
+                    raise ResponseError(f'{url} {response.status}')
 
-            json_response = await response.json()
+                json_response = await response.json()
 
-        return self._parse_response(json_response)
+            return self._parse_response(json_response)
+
+        except aiohttp.client_exceptions.ClientOSError as e:
+            # Catches Connection reset by peer and possibly others
+            raise ResponseError(f'{url}: {e}')
 
     async def get_markets(self, market_name=None):
         """Added our own get single market option"""
