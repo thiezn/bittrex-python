@@ -123,6 +123,24 @@ def main():
     if deposit_history:
         print(f'First response is: {deposit_history[0]}\n\n')
 
+    print('\n\nRetrieving get_candles()')
+    print('=========================')
+    candles = loop.run_until_complete(
+        session.get_candles(market_name, 'five_min')
+    )
+    print(f'{len(candles)} found')
+    if candles:
+        print(f'First response is: {candles[0]}\n\n')
+
+    print('\n\nRetrieving get_latest_candle()')
+    print('=========================')
+    candles = loop.run_until_complete(
+        session.get_latest_candle(market_name, 'five_min')
+    )
+    print(f'{len(candles)} found')
+    if candles:
+        print(f'First response is: {candles[0]}\n\n')
+
     loop.run_until_complete(session.close())
 
 if __name__ == '__main__':

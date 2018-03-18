@@ -121,3 +121,11 @@ class BittrexAsyncSession(BittrexBaseSession):
     async def get_deposit_history(self, currency=None):
         url = self._get_deposit_history(currency)
         return await self._get(url)
+
+    async def get_candles(self, market_name, tick_interval):
+        url = self._get_candles(market_name, tick_interval)
+        return await self._get(url)
+
+    async def get_latest_candle(self, market_name, tick_interval):
+        url = self._get_latest_candle(market_name, tick_interval)
+        return await self._get(url)

@@ -3,6 +3,10 @@
 Release History
 ---------------
 
+0.0.5 (2018-03-18)
+++++++++++++++++++
+- Added get_candles and get_latest_candle from bta api v2
+
 0.0.4 (2018-03-17)
 ++++++++++++++++++
 - Async get function now catches ClientOSErrors and reraises it as ResponseError

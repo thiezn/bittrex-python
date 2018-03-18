@@ -104,3 +104,11 @@ class BittrexSession(BittrexBaseSession):
     def get_deposit_history(self, currency=None):
         url = self._get_deposit_history(currency)
         return self._get(url)
+
+    def get_candles(self, market_name, tick_interval):
+        url = self._get_candles(market_name, tick_interval)
+        return self._get(url)
+
+    def get_latest_candle(self, market_name, tick_interval):
+        url = self._get_latest_candle(market_name, tick_interval)
+        return self._get(url)

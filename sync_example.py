@@ -97,6 +97,20 @@ def main():
     if deposit_history:
         print(f'First response is: {deposit_history[0]}\n\n')
 
+    print('\n\nRetrieving get_candles()')
+    print('=========================')
+    candles = session.get_candles(market_name, 'five_min')
+    print(f'{len(candles)} found')
+    if candles:
+        print(f'First response is: {candles[0]}\n\n')
+
+    print('\n\nRetrieving get_latest_candle()')
+    print('=========================')
+    candles = session.get_latest_candle(market_name, 'five_min')
+    print(f'{len(candles)} found')
+    if candles:
+        print(f'First response is: {candles[0]}\n\n')
+
 
 if __name__ == '__main__':
     main()

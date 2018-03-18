@@ -7,18 +7,25 @@ import hmac
 from time import time
 
 
-__version__ = 'v0.0.4'
+__version__ = 'v0.0.5'
+
 
 class BittrexBaseSession:
-    def __init__(self, key, secret, host='bittrex.com', version='v1.1', loop=None):
+    def __init__(self, key, secret, host='bittrex.com',
+                 version='v1.1', version_v2='v2.0', loop=None):
         self.key = key
         self.secret = secret
         self.host = host
         self.version = version
+        self.version_v2 = version_v2
 
     @property
     def base_url(self):
         return f'https://{self.host}/api/{self.version}/'
+
+    @property
+    def base_url_v2(self):
+        return f'https://{self.host}/Api/{self.version_v2}/'
 
     @property
     def nonce(self):
@@ -36,6 +43,16 @@ class BittrexBaseSession:
     def _url(self, method, parameters=None):
         """Compile url"""
         url = f'{self.base_url}{method}'
+
+        if parameters is not None:
+            encoded_params = urlencode(parameters)
+            url += f'?{encoded_params}'
+
+        return url
+
+    def _url_v2(self, method, parameters=None):
+        """Compile v2 api url"""
+        url = f'{self.base_url_v2}{method}'
 
         if parameters is not None:
             encoded_params = urlencode(parameters)
@@ -266,6 +283,59 @@ class BittrexBaseSession:
             params['currency'] = currency
 
         return self._url('account/getdeposithistory', params)
+
+    # NOTE: Endpoints below this point are using the beta v2 version
+    # use at your own risk..
+
+    def _get_candles(self, market_name, tick_interval):
+        """Gets candles for given market_name
+
+        :param market_name: Name of the market
+        :param tick_interval: one_min, five_min, thirty_min, hour or day
+        """
+        params = {
+            'marketName': market_name
+        }
+
+        if tick_interval == 'one_min':
+            params['tickInterval'] = 'oneMin'
+        elif tick_interval == 'five_min':
+            params['tickInterval'] = 'fiveMin'
+        elif tick_interval == 'thirty_min':
+            params['tickInterval'] = 'thirtyMin'
+        elif tick_interval == 'hour':
+            params['tickInterval'] = 'hour'
+        elif tick_interval == 'day':
+            params['tickInterval'] = 'day'
+        else:
+            raise RequestError('tickInterval')
+
+        return self._url_v2('pub/market/GetTicks', params)
+
+    def _get_latest_candle(self, market_name, tick_interval):
+        """Gets latest candle for given market_name
+
+        :param market_name: Name of the market
+        :param tick_interval: one_min, five_min, thirty_min, hour or day
+        """
+        params = {
+            'marketName': market_name
+        }
+
+        if tick_interval == 'one_min':
+            params['tickInterval'] = 'oneMin'
+        elif tick_interval == 'five_min':
+            params['tickInterval'] = 'fiveMin'
+        elif tick_interval == 'thirty_min':
+            params['tickInterval'] = 'thirtyMin'
+        elif tick_interval == 'hour':
+            params['tickInterval'] = 'hour'
+        elif tick_interval == 'day':
+            params['tickInterval'] = 'day'
+        else:
+            raise RequestError('tickInterval')
+
+        return self._url_v2('pub/market/GetLatestTick', params)
 
     @classmethod
     def load_from_file(cls, filename, loop=None):
