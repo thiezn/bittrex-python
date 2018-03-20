@@ -1,5 +1,11 @@
 import re
 import json
+import time
+
+TIMESTAMP_FIELDS = [
+    'Created', 'TimeStamp', 'Opened', 'Closed',
+    'LastChecked', 'T', 'LastUpdated'
+]  # T is used for api v2 candle timestamp...
 
 
 class Response:
@@ -7,17 +13,33 @@ class Response:
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
-            setattr(self, self._convert_to_camel(key), value)
+            if key in TIMESTAMP_FIELDS and value is not None:
+                try:
+                    timestamp = time.mktime(
+                        time.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                    )
+                except ValueError:
+                    # Some returns do not have the microsecond
+                    timestamp = time.mktime(
+                        time.strptime(value, '%Y-%m-%dT%H:%M:%S')
+                    )
+                except TypeError:
+                    # value is None
+                    timestamp = value
+
+                setattr(self, self._convert_to_camel(key), timestamp)
+            else:
+                setattr(self, self._convert_to_camel(key), value)
 
     def __repr__(self):
         description = f"<Response"
-        
+
         for key, value in self.__dict__.items():
             description += f" {key}={value}"
 
         description += ">"
         return description
-    
+
     @staticmethod
     def _convert_to_camel(name):
         """Converts CamelCase to snake_case"""

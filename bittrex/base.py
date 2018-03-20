@@ -7,12 +7,21 @@ import hmac
 from time import time
 
 
-__version__ = 'v0.0.5'
+__version__ = 'v0.0.6'
 
 
 class BittrexBaseSession:
     def __init__(self, key, secret, host='bittrex.com',
                  version='v1.1', version_v2='v2.0', loop=None):
+        """Initialise session
+
+        :param key:
+        :param secret:
+        :param host:
+        :param version:
+        :param version_v2:
+        :param loop: asyncio loop for async session
+        """
         self.key = key
         self.secret = secret
         self.host = host

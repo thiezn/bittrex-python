@@ -3,6 +3,10 @@
 Release History
 ---------------
 
+0.0.6 (2018-03-20)
+++++++++++++++++++
+- Converts bittrex times to python unix timestamp strings (Might change to datetime and/or optional feature)
+
 0.0.5 (2018-03-18)
 ++++++++++++++++++
 - Added get_candles and get_latest_candle from bta api v2
