@@ -3,6 +3,10 @@
 Release History
 ---------------
 
+0.0.7 (2018-03-20)
+++++++++++++++++++
+- Fixed Response parsing when result=null
+
 0.0.6 (2018-03-20)
 ++++++++++++++++++
 - Converts bittrex times to python unix timestamp strings (Might change to datetime and/or optional feature)

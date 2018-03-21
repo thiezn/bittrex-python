@@ -7,7 +7,7 @@ import hmac
 from time import time
 
 
-__version__ = 'v0.0.6'
+__version__ = 'v0.0.7'
 
 
 class BittrexBaseSession:
@@ -83,6 +83,9 @@ class BittrexBaseSession:
             return [Response(**result) for result in data['result']]
         elif isinstance(data['result'], dict):
             return Response(**data['result'])
+        elif data['result'] is None:
+            # for instance in cancel order
+            pass
         else:
             raise ResponseError(f"Parsing failed: {data}")
 
