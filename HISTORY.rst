@@ -3,6 +3,10 @@
 Release History
 ---------------
 
+0.0.8 (2018-03-23)
+++++++++++++++++++
+- Async get function now catches ServerDisconnectedError ad reraises it as ResponseError
+
 0.0.7 (2018-03-20)
 ++++++++++++++++++
 - Fixed Response parsing when result=null

@@ -40,7 +40,10 @@ class BittrexAsyncSession(BittrexBaseSession):
 
         except aiohttp.client_exceptions.ClientOSError as e:
             # Catches Connection reset by peer and possibly others
-            raise ResponseError(f'{url}: {e}')
+            raise ResponseError(f'{url}: ClientOSError {e}')
+        except aiohttp.client_exceptions.ServerDisconnectedError as e:
+            # Catched Server Disconnected errors
+            raise ResponseError(f'{url}: ServerDisconnectedError {e}')
 
     async def get_markets(self, market_name=None):
         """Added our own get single market option"""

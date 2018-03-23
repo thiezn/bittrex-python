@@ -35,4 +35,4 @@ Coffee
 ------
 If you'd like to buy me a coffee, donations are always welcome! Not sure why you'd want to through since YOU SHOULD NOT USE THIS LIBRARY!
 BTC address: 1G5MHp74SY7pdEWS4HfeBJuaRkXG6p6XKi
-LTC address: 
+LTC address: LiNQygS9w2Yf4UToH4Vd5WGwwiK3cnN7GB
