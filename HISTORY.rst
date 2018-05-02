@@ -3,9 +3,13 @@
 Release History
 ---------------
 
+0.0.9 (2018-03-23)
+++++++++++++++++++
+- Async get function now catches TimeoutError and re-raises it as ResponseError
+
 0.0.8 (2018-03-23)
 ++++++++++++++++++
-- Async get function now catches ServerDisconnectedError ad reraises it as ResponseError
+- Async get function now catches ServerDisconnectedError and re-raises it as ResponseError
 
 0.0.7 (2018-03-20)
 ++++++++++++++++++

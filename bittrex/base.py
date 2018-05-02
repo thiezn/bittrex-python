@@ -7,7 +7,7 @@ import hmac
 from time import time
 
 
-__version__ = 'v0.0.8'
+__version__ = 'v0.0.9'
 
 
 class BittrexBaseSession:
